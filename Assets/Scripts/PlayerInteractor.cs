@@ -1,49 +1,40 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Menangani ambil APAR dengan tombol E saat dekat, plus teks panduan.
-// Semprotan sendiri ditangani FireExtinguisher.
 public class PlayerInteractor : MonoBehaviour
 {
-    [Header("Refs (diisi builder atau otomatis)")]
     public FireExtinguisher apar;
     public Transform aparMount;
     public MissionUI ui;
 
     void Awake()
     {
-        if (apar == null)
-            apar = FindFirstObjectByType<FireExtinguisher>();
-        if (ui == null)
-            ui = FindFirstObjectByType<MissionUI>();
+        if (apar == null) apar = FindFirstObjectByType<FireExtinguisher>();
+        if (ui == null) ui = FindFirstObjectByType<MissionUI>();
     }
 
     void Update()
     {
-        if (MissionManager.Instance == null || MissionManager.Instance.Phase != MissionManager.MissionPhase.Running)
-            return;
-        if (apar == null)
-            return;
-        if (!apar.IsEquipped)
-            HandlePickup();
-        else
-            ui?.ShowPrompt("Hold SPACE to spray");
-    }
-
-    void HandlePickup()
-    {
-        float dist = Vector3.Distance(transform.position, apar.transform.position);
-        if (dist > apar.pickupRadius)
+        var mission = MissionManager.Instance;
+        if (mission == null || mission.Phase != MissionManager.MissionPhase.Running || apar == null) return;
+        if (mission.FiresRemaining == 0)
         {
-            ui?.ShowPrompt("");
+            ui?.ShowPrompt("Ikuti tanda hijau menuju pintu KELUAR");
             return;
         }
-        ui?.ShowPrompt("Press E to pick up extinguisher");
+        if (apar.IsEquipped)
+        {
+            ui?.ShowPrompt(apar.CurrentTarget != null ? "Tahan SPACE  /  Padamkan pangkal api" : "Bidik pangkal api  /  Dekati hingga 7 meter");
+            return;
+        }
+        float distance = Vector3.Distance(transform.position, apar.transform.position);
+        bool nearby = distance <= apar.pickupRadius;
+        ui?.ShowPrompt(nearby ? "[ E ]  Ambil APAR" : "Dekati APAR merah di area PERALATAN");
         var kb = Keyboard.current;
-        if (kb != null && kb.eKey.wasPressedThisFrame && aparMount != null)
+        if (nearby && kb != null && kb.eKey.wasPressedThisFrame && aparMount != null)
         {
             apar.Equip(aparMount);
-            ui?.ShowPrompt("Hold SPACE to spray");
+            ui?.ShowCenterMessage("APAR siap. Bidik pangkal api, lalu tahan SPACE.", 3f);
         }
     }
 }

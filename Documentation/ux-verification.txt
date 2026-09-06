@@ -1,0 +1,21 @@
+2026-09-07T05:51:35.7527251+07:00
+PASS (19 checks)
+PASS Briefing holds timer at 60
+PASS Enter starts mission
+PASS Timer advances in live frames
+PASS W moves the player
+PASS Pause freezes timer and movement
+PASS Escape resumes mission
+PASS Cannot complete while fires remain
+PASS E picks up APAR and disables body collisions
+PASS Crosshair finds aimed fire
+PASS Solid obstacle blocks spray target
+PASS Space extinguishes aimed fire and awards 100 once
+PASS Other fires remain unaffected
+PASS Spray extinguishes Fire2
+PASS Spray extinguishes Fire1
+PASS All fires unlock exit
+PASS Reaching exit completes mission with time bonus
+PASS R restarts cleanly with three fires and briefing
+PASS Timer expiry enters Failed
+PASS Result button restarts mission

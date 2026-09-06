@@ -1,104 +1,132 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-// Otak misi: timer 60 detik, skor +100 per api padam, buka pintu keluar
-// saat api habis, kapan COMPLETE dan FAILED. Referensi api, pintu,
-// dan UI dicari otomatis agar builder tetap sederhana.
+// Siklus latihan, timer, skor, dan transisi yang dipakai input serta HUD.
 public class MissionManager : MonoBehaviour
 {
     public static MissionManager Instance { get; private set; }
+    public enum MissionPhase { Running, Complete, Failed, Ready, Paused }
+    public MissionPhase Phase { get; private set; } = MissionPhase.Ready;
 
-    public enum MissionPhase { Running, Complete, Failed }
-    public MissionPhase Phase { get; private set; } = MissionPhase.Running;
-
-    [Header("Tuning")]
     public float missionTime = 60f;
     public int pointsPerFire = 100;
     public int timeBonusPerSecond = 2;
+    public FireSource[] fires;
+    public ExitDoor exitDoor;
+    public MissionUI ui;
 
     public float TimeLeft { get; private set; }
     public int Score { get; private set; }
     public int FiresRemaining { get; private set; }
     public int FinalScore { get; private set; }
-
-    FireSource[] fires;
-    ExitDoor exitDoor;
-    MissionUI ui;
+    public int TotalFires => fires.Length;
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
         Instance = this;
+        Time.timeScale = 1f;
         TimeLeft = missionTime;
-        fires = FindObjectsByType<FireSource>(FindObjectsSortMode.None);
-        exitDoor = FindFirstObjectByType<ExitDoor>();
-        ui = FindFirstObjectByType<MissionUI>();
+        if (fires == null || fires.Length == 0)
+            fires = FindObjectsByType<FireSource>(FindObjectsSortMode.None);
+        if (exitDoor == null) exitDoor = FindFirstObjectByType<ExitDoor>();
+        if (ui == null) ui = FindFirstObjectByType<MissionUI>();
         FiresRemaining = fires.Length;
         foreach (var fire in fires)
             fire.Extinguished += OnFireExtinguished;
     }
 
+    void Start() => SetPhase(MissionPhase.Ready);
+
     void OnDestroy()
     {
         if (fires != null)
-        {
             foreach (var fire in fires)
-            {
-                if (fire != null)
-                    fire.Extinguished -= OnFireExtinguished;
-            }
-        }
+                if (fire != null) fire.Extinguished -= OnFireExtinguished;
         if (Instance == this)
+        {
             Instance = null;
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     void Update()
     {
-        if (Phase != MissionPhase.Running)
-            return;
+        var kb = Keyboard.current;
+        if (kb != null)
+        {
+            if ((Phase == MissionPhase.Ready || Phase == MissionPhase.Paused) && kb.enterKey.wasPressedThisFrame)
+                BeginOrResume();
+            else if (kb.escapeKey.wasPressedThisFrame)
+            {
+                if (Phase == MissionPhase.Running) Pause();
+                else if (Phase == MissionPhase.Paused) BeginOrResume();
+            }
+            if (Phase != MissionPhase.Running && Phase != MissionPhase.Ready && kb.rKey.wasPressedThisFrame)
+                Restart();
+        }
+        if (Phase != MissionPhase.Running) return;
         TimeLeft = Mathf.Max(0f, TimeLeft - Time.deltaTime);
         if (TimeLeft <= 0f)
         {
-            FailMission();
-            return;
+            FinalScore = Score;
+            SetPhase(MissionPhase.Failed);
         }
-        ui?.UpdateHUD(TimeLeft, FiresRemaining, Score);
+    }
+
+    public void BeginOrResume()
+    {
+        if (Phase == MissionPhase.Ready || Phase == MissionPhase.Paused)
+            SetPhase(MissionPhase.Running);
+    }
+
+    public void Pause()
+    {
+        if (Phase == MissionPhase.Running) SetPhase(MissionPhase.Paused);
+    }
+
+    void OnApplicationFocus(bool focused)
+    {
+        if (!focused) Pause();
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void SetPhase(MissionPhase phase)
+    {
+        Phase = phase;
+        // Nyala tetap hidup pada briefing dan hasil, tetapi berhenti saat pause.
+        Time.timeScale = phase == MissionPhase.Paused ? 0f : 1f;
+        bool playing = phase == MissionPhase.Running;
+        Cursor.lockState = playing ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !playing;
+        ui?.ShowPhase(phase);
     }
 
     void OnFireExtinguished(FireSource fire)
     {
-        if (Phase != MissionPhase.Running)
-            return;
+        if (Phase != MissionPhase.Running) return;
         FiresRemaining = Mathf.Max(0, FiresRemaining - 1);
         Score += pointsPerFire;
-        ui?.UpdateHUD(TimeLeft, FiresRemaining, Score);
-        if (FiresRemaining <= 0 && exitDoor != null)
+        if (FiresRemaining == 0 && exitDoor != null)
         {
             exitDoor.Unlock();
-            ui?.ShowCenterMessage("EXIT UNLOCKED", 3f);
+            ui?.ShowCenterMessage("Semua api padam. Menuju pintu KELUAR.", 4f);
         }
+        else ui?.ShowCenterMessage("Api padam  +" + pointsPerFire, 2f);
     }
 
     public void TryCompleteMission()
     {
-        if (Phase != MissionPhase.Running)
+        if (Phase != MissionPhase.Running || FiresRemaining > 0 || exitDoor == null || !exitDoor.IsUnlocked)
             return;
-        if (exitDoor != null && !exitDoor.IsUnlocked)
-            return;
-        Phase = MissionPhase.Complete;
         FinalScore = Score + Mathf.RoundToInt(TimeLeft) * timeBonusPerSecond;
-        ui?.UpdateHUD(TimeLeft, FiresRemaining, Score);
-        ui?.ShowMissionEnd(true, FinalScore);
-    }
-
-    void FailMission()
-    {
-        Phase = MissionPhase.Failed;
-        FinalScore = Score;
-        ui?.UpdateHUD(0f, FiresRemaining, Score);
-        ui?.ShowMissionEnd(false, FinalScore);
+        SetPhase(MissionPhase.Complete);
     }
 }

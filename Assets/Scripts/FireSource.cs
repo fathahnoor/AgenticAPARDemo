@@ -11,6 +11,7 @@ public class FireSource : MonoBehaviour
 
     public float Intensity { get; private set; } = 1f;
     public bool IsExtinguished => Intensity <= 0f;
+    public Vector3 AimPoint => transform.position + Vector3.up * 1.05f;
 
     public event Action<FireSource> Extinguished;
 
@@ -93,3 +94,4 @@ public class FireSource : MonoBehaviour
         }
     }
 }
+

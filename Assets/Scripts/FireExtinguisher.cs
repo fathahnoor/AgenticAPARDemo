@@ -1,32 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Tabung APAR di scene. Mulanya tergeletak, diambil pemain dengan tombol E
-// lewat PlayerInteractor, lalu menempel di mount kamera. Semprotan aktif
-// selama Space ditahan dan misi berjalan. Kena api dihitung dengan
-// pendekatan kerucut (jarak + sudut), andal tanpa raycast.
+// Bidikan kamera adalah sumber kebenaran untuk target, HUD, dan semprotan.
 public class FireExtinguisher : MonoBehaviour
 {
     public bool IsEquipped { get; private set; }
     public bool IsSpraying { get; private set; }
-
-    [Header("Tuning semprotan")]
+    public FireSource CurrentTarget { get; private set; }
     public float sprayRange = 7f;
-    public float sprayAngle = 30f;
+    public float sprayAngle = 9f;
     public float extinguishRate = 0.5f;
-
-    [Header("Refs (diisi builder)")]
+    public float pickupRadius = 2.5f;
     public Transform sprayTip;
     public ParticleSystem sprayParticles;
+    public Camera aimCamera;
+    Collider[] bodyColliders;
 
-    public float pickupRadius = 3f;
+    void Awake() => bodyColliders = GetComponentsInChildren<Collider>();
 
     public void Equip(Transform mount)
     {
-        if (IsEquipped)
-            return;
+        if (IsEquipped || mount == null) return;
         IsEquipped = true;
-        transform.SetParent(mount);
+        foreach (var col in bodyColliders) col.enabled = false;
+        transform.SetParent(mount, false);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.one;
@@ -34,50 +31,46 @@ public class FireExtinguisher : MonoBehaviour
 
     void Update()
     {
-        bool wantSpray = false;
-        if (IsEquipped && MissionManager.Instance != null && MissionManager.Instance.Phase == MissionManager.MissionPhase.Running)
+        bool running = MissionManager.Instance != null && MissionManager.Instance.Phase == MissionManager.MissionPhase.Running;
+        CurrentTarget = IsEquipped && running ? FindTarget() : null;
+        var kb = Keyboard.current;
+        IsSpraying = IsEquipped && running && kb != null && kb.spaceKey.isPressed;
+        if (sprayTip != null && aimCamera != null && IsEquipped)
         {
-            var kb = Keyboard.current;
-            if (kb != null && kb.spaceKey.isPressed)
-                wantSpray = true;
+            Vector3 target = CurrentTarget != null ? CurrentTarget.AimPoint : aimCamera.transform.position + aimCamera.transform.forward * sprayRange;
+            sprayTip.rotation = Quaternion.LookRotation(target - sprayTip.position);
         }
-        IsSpraying = wantSpray;
-        SetSprayVisual(wantSpray);
-        if (wantSpray)
-            SprayFires(Time.deltaTime);
+        if (sprayParticles != null)
+        {
+            var emission = sprayParticles.emission;
+            emission.enabled = IsSpraying;
+        }
+        if (IsSpraying && CurrentTarget != null)
+            CurrentTarget.ApplySpray(extinguishRate * Time.deltaTime);
     }
 
-    void SetSprayVisual(bool on)
+    public FireSource FindTarget()
     {
-        if (sprayParticles == null)
-            return;
-        var emission = sprayParticles.emission;
-        emission.enabled = on;
-    }
-
-    void SprayFires(float deltaTime)
-    {
-        if (sprayTip == null)
-            return;
-        Vector3 origin = sprayTip.position;
-        // Partikel cone memancar sepanjang +Y lokal sprayTip (lihat
-        // rotasi SprayTip di builder), jadi arah semprot = sprayTip.up,
-        // bukan forward.
-        Vector3 forward = sprayTip.up;
-        float maxAmount = extinguishRate * deltaTime;
+        if (aimCamera == null) return null;
+        Vector3 origin = aimCamera.transform.position;
+        Vector3 forward = aimCamera.transform.forward;
+        FireSource best = null;
+        float bestAngle = sprayAngle;
         foreach (var fire in FireSource.All)
         {
-            if (fire == null || fire.IsExtinguished)
-                continue;
-            // Bidik ke tengah api, sedikit di atas lantai.
-            Vector3 target = fire.transform.position + Vector3.up * 1f;
-            Vector3 toTarget = target - origin;
-            float dist = toTarget.magnitude;
-            if (dist > sprayRange)
-                continue;
-            float angle = Vector3.Angle(forward, toTarget / Mathf.Max(dist, 0.001f));
-            if (angle <= sprayAngle)
-                fire.ApplySpray(maxAmount);
+            if (fire == null || fire.IsExtinguished) continue;
+            Vector3 direction = fire.AimPoint - origin;
+            float distance = direction.magnitude;
+            if (distance > sprayRange) continue;
+            float angle = Vector3.Angle(forward, direction);
+            if (angle > bestAngle) continue;
+            if (Physics.Raycast(origin, direction.normalized, out RaycastHit hit, distance, ~0, QueryTriggerInteraction.Ignore)
+                && !hit.transform.IsChildOf(fire.transform)) continue;
+            if (sprayTip != null && Physics.Linecast(sprayTip.position, fire.AimPoint, out hit, ~0, QueryTriggerInteraction.Ignore)
+                && !hit.transform.IsChildOf(fire.transform)) continue;
+            bestAngle = angle;
+            best = fire;
         }
+        return best;
     }
 }

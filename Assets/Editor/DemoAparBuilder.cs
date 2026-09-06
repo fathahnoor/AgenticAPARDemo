@@ -254,46 +254,18 @@ public static class DemoAparBuilder
 
     static void BuildMission()
     {
-        var mm = new GameObject("MissionManager");
-        Undo.AddComponent<MissionManager>(mm);
-
-        var uiGo = new GameObject("MissionUI");
-        var ui = Undo.AddComponent<MissionUI>(uiGo);
-
-        var canvasGo = new GameObject("HUD");
-        canvasGo.transform.SetParent(uiGo.transform, false);
-        var canvas = canvasGo.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        var scaler = canvasGo.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        ui.timeText = AddHudText(canvasGo.transform, "TimeText", 28, TextAnchor.UpperLeft,
-            new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(20f, -20f));
-        ui.firesText = AddHudText(canvasGo.transform, "FiresText", 28, TextAnchor.UpperLeft,
-            new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(20f, -60f));
-        ui.scoreText = AddHudText(canvasGo.transform, "ScoreText", 28, TextAnchor.UpperLeft,
-            new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(20f, -100f));
-        ui.centerText = AddHudText(canvasGo.transform, "CenterText", 56, TextAnchor.MiddleCenter,
-            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
-        ui.centerText.fontStyle = FontStyle.Bold;
-        ui.promptText = AddHudText(canvasGo.transform, "PromptText", 24, TextAnchor.LowerCenter,
-            new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 40f));
-        ui.UpdateHUD(60f, 3, 0);
-    }
-
-    static Text AddHudText(Transform parent, string name, int size, TextAnchor anchor,
-        Vector2 anchorMin, Vector2 anchorMax, Vector2 anchoredPos)
-    {
-        Text text = MissionUI.MakeText(name, parent, size, anchor);
-        var rect = text.GetComponent<RectTransform>();
-        rect.anchorMin = anchorMin;
-        rect.anchorMax = anchorMax;
-        rect.anchoredPosition = anchoredPos;
-        rect.sizeDelta = new Vector2(800f, 80f);
-        if (name == "CenterText")
-            rect.sizeDelta = new Vector2(1200f, 300f);
-        return text;
+        var mm = new GameObject("MissionManager").AddComponent<MissionManager>();
+        var ui = DemoAparUIBuilder.Build();
+        var interactor = Object.FindFirstObjectByType<PlayerInteractor>();
+        var apar = Object.FindFirstObjectByType<FireExtinguisher>();
+        var exit = Object.FindFirstObjectByType<ExitDoor>();
+        interactor.apar = apar;
+        interactor.ui = ui;
+        apar.aimCamera = Object.FindFirstObjectByType<PlayerController>().playerCamera;
+        ui.apar = apar;
+        exit.player = interactor.transform;
+        mm.ui = ui;
+        mm.exitDoor = exit;
+        mm.fires = Object.FindObjectsByType<FireSource>(FindObjectsSortMode.None);
     }
 }

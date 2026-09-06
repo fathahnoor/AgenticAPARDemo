@@ -25,24 +25,10 @@ public class PlayerController : MonoBehaviour
             playerCamera = GetComponentInChildren<Camera>();
     }
 
-    void Start()
-    {
-        try
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        catch (System.Exception)
-        {
-            // Abaikan bila kursor tak bisa dikunci (misal editor headless).
-        }
-    }
-
     void Update()
     {
         if (MissionManager.Instance != null && MissionManager.Instance.Phase != MissionManager.MissionPhase.Running)
         {
-            UnlockCursor();
             return;
         }
         HandleLook();
@@ -90,19 +76,5 @@ public class PlayerController : MonoBehaviour
         controller.Move(move * Time.deltaTime);
     }
 
-    void UnlockCursor()
-    {
-        try
-        {
-            if (Cursor.lockState != CursorLockMode.None)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-        }
-        catch (System.Exception)
-        {
-            // Abaikan, tidak kritis.
-        }
-    }
 }
+
