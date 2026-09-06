@@ -69,7 +69,7 @@ public class MissionUI : MonoBehaviour
         var go = new GameObject(name);
         go.transform.SetParent(parent, false);
         var text = go.AddComponent<Text>();
-        text.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         text.fontSize = fontSize;
         text.alignment = anchor;
         text.color = Color.white;
