@@ -60,7 +60,10 @@ public class FireExtinguisher : MonoBehaviour
         if (sprayTip == null)
             return;
         Vector3 origin = sprayTip.position;
-        Vector3 forward = sprayTip.forward;
+        // Partikel cone memancar sepanjang +Y lokal sprayTip (lihat
+        // rotasi SprayTip di builder), jadi arah semprot = sprayTip.up,
+        // bukan forward.
+        Vector3 forward = sprayTip.up;
         float maxAmount = extinguishRate * deltaTime;
         foreach (var fire in FireSource.All)
         {
