@@ -1,7 +1,7 @@
 # Project Handover
 
 Handoff status: READY
-Updated: 2026-09-07 12:11:51 +07:00 Asia/Jakarta
+Updated: 2026-09-07 12:13:58 +07:00 Asia/Jakarta
 Project root: C:\DevPath\260906_demo-apar\AgenticAPARDemo
 Source: Codex Desktop
 
@@ -17,13 +17,13 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 
 ## Current state
 
-- UX commit 562f66e, art milestone 36c64b2, Web milestone 8ebf281, and README/documentation checkpoint f255d9e are committed and pushed.
+- UX commit 562f66e, art milestone 36c64b2, Web milestone 8ebf281, README/documentation checkpoint f255d9e, and audio milestone a77b79e are committed and pushed.
 - New scene includes detailed APAR, drums, industrial room, textured materials, lighting, fire, smoke, BGM ambient and responsive SFX. Final Editor captures at 1600x900 and 1024x768 were inspected.
 - Final scene under Web_RPAsset passed all 19 integration checks at 10:59 WIB. Compile passed, Console since cursor 55 has no errors, scene saved with 11 roots.
 - Target WebGL and Web_RPAsset are active. Web Build Support is installed. Latest WebGL release build with audio completed at 12:04:06 WIB with Succeeded, 0 errors, 11 optional shader warnings, 52.483.745 bytes.
-- Web template includes loading/progress/retry/fullscreen and browser focus/pointer-lock pause support. Local and live browser playback, including the resumed Web Audio context, are verified.
+- Web template includes loading/progress/retry/fullscreen and browser focus/pointer-lock pause support. Local and live browser playback, including the resumed Web Audio context, are verified for a77b79e.
 - gh authentication and repo admin verified; repository public. Pages is active from main:/docs with HTTPS enforced and status built.
-- No active subagent controls Unity. One subagent wrote the web template then exhausted quota; root owns the rest.
+- No active subagent controls Unity. One subagent wrote the web template then exhausted quota; root owns the rest. Audio QA is recorded in Documentation/audio-verification.md.
 
 ## Worktree and files
 
@@ -31,7 +31,7 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 - Art committed: Assets/Art/Generated, DemoAparArt.cs, DemoAparBuilder.cs, DemoAparUIBuilder.cs, DemoAparCapture.cs, FireSource.cs and scene.
 - Web committed: DemoAparWebBuild.cs, Assets/WebGLTemplates/APAR, Web_RPAsset/Web_Renderer, ProjectSettings, .gitattributes docs override, README and AGENTS target note.
 - docs/ is the build output and intended Pages source. Check each file under 100 MB and ensure no LFS pointers.
-- QA: Documentation/ux-verification.txt, Documentation/audio-verification.md and Documentation/VisualQA/web-*.png. Older captures under Assets/Documentation and Documentation/VisualQA are intermediate evidence, not final results; preserve them.
+- QA: Documentation/ux-verification.txt, Documentation/audio-verification.md and Documentation/VisualQA/web-*.png plus browser-audio-*.png. Older captures under Assets/Documentation and Documentation/VisualQA are intermediate evidence, not final results; preserve them.
 - HANDOFF.md, task_plan.md, progress.md, findings.md and browser-verification.md receive the final documentation checkpoint commit.
 
 ## Decisions and constraints

@@ -23,3 +23,9 @@ Tanggal 7 September 2026, Unity 6000.6.0f1 dan Comet melalui CDP 9222.
 - `node --check docs/app.js` lulus.
 - Comet memuat halaman lokal, klik mulai mengubah status menjadi `Latihan berlangsung`, konteks audio browser melaporkan `Audio context resumed`, dan `errors` kosong.
 - Screenshot: `Documentation/VisualQA/browser-audio-local.png`, `browser-audio-running.png`, dan `browser-audio-spray.png`.
+
+## WebGL publik
+
+- GitHub Pages `https://fathahnoor.github.io/AgenticAPARDemo/` melaporkan `status: built` untuk commit `a77b79e` dengan source `main:/docs` dan HTTPS aktif.
+- Comet memuat build publik, klik mulai mengubah status menjadi `Latihan berlangsung`, audio context resumed dalam `0,424` detik, dan `errors` kosong.
+- Screenshot publik: `Documentation/VisualQA/browser-audio-live-ready.png` dan `browser-audio-live-running.png`.
