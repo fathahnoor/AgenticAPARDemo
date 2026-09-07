@@ -15,4 +15,12 @@ Tanggal 7 September 2026, Comet melalui CDP 9222.
 
 URL yang dituju: https://fathahnoor.github.io/AgenticAPARDemo/
 
-Status deployment dan uji kontrol publik dicatat setelah GitHub Pages selesai membangun source `main:/docs`. Jangan menyatakan playable publik sebelum halaman, loader, dan input browser diperiksa pada URL ini.
+Tanggal 7 September 2026, Comet melalui CDP 9222.
+
+- GitHub Pages API melaporkan `status: built`, source `main:/docs`, HTTPS aktif, dan commit build `8ebf281`.
+- Halaman publik memuat loader, data, framework, dan WebAssembly dari URL relatif repository.
+- Unity membuat konteks WebGL 2.0. Briefing, scene 3D, HUD, api, APAR, dan layar jeda terlihat pada `Documentation/VisualQA/browser-live-ready.png`, `browser-live-playing.png`, dan `browser-live-paused.png`.
+- Sesi live menerima klik mulai, input keyboard untuk lanjut/jeda, dan input gameplay yang menghasilkan HUD `2 / 3 API PADAM`, `200 POIN`, serta status `APAR / MENYEMPROT` pada `browser-live-resumed.png`.
+- Console live hanya berisi log startup Unity, saran header `Content-Encoding: gzip`, dan shader URP opsional yang ter-strip. Saat automation Comet melepaskan pointer lock, runtime mencatat `WrongDocumentError`; ini berasal dari batas pointer lock pada sesi automation dan tidak menghentikan pemuatan atau gameplay.
+
+URL publik: https://fathahnoor.github.io/AgenticAPARDemo/

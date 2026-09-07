@@ -1,15 +1,15 @@
 # Project Handover
 
 Handoff status: READY
-Updated: 2026-09-07 11:03:00 +07:00 Asia/Jakarta
+Updated: 2026-09-07 11:32:00 +07:00 Asia/Jakarta
 Project root: C:\DevPath\260906_demo-apar\AgenticAPARDemo
 Source: Codex Desktop
 
 ## Resume here
 
 1. Read project instructions, task_plan.md, findings.md and latest progress.md checkpoint. Run `git status --short --branch`.
-2. Read `Documentation/webgl-build.txt`. A WebGL release build is currently running through the open Unity Editor. Do not start another build while status is Building.
-3. Once Succeeded, serve docs/ locally, test in Comet, publish GitHub Pages from main:/docs, then test the public URL. If Failed, read Console through Unity CLI and fix the specific build error.
+2. The main implementation goal is complete. Verify the final documentation commit and Pages status only if a later agent resumes.
+3. Public URL: `https://fathahnoor.github.io/AgenticAPARDemo/`. Do not start a duplicate WebGL build.
 
 ## Goal and scope
 
@@ -17,22 +17,22 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 
 ## Current state
 
-- UX commit 562f66e was pushed and verified. Art milestone 36c64b2 is committed; its push is in progress and not yet verified.
+- UX commit 562f66e and art milestone 36c64b2 are committed and pushed. Web milestone 8ebf281 is committed and pushed; final documentation checkpoint is pending.
 - New scene includes detailed APAR, drums, industrial room, textured materials, lighting, fire and smoke. Final Editor captures at 1600x900 and 1024x768 were inspected.
 - Final scene under Web_RPAsset passed all 19 integration checks at 10:59 WIB. Compile passed, Console since cursor 55 has no errors, scene saved with 11 roots.
-- Target WebGL and Web_RPAsset are active. Web Build Support is installed. Initial WebGL release build started at 11:01:59 WIB, report says Building.
-- Web template includes loading/progress/retry/fullscreen and browser focus/pointer-lock pause support. Template and browser playback still need actual build verification.
-- gh authentication and repo admin verified; repository public. Pages did not exist when checked. No public game deployed yet.
+- Target WebGL and Web_RPAsset are active. Web Build Support is installed. WebGL release build completed at 11:23:35 WIB with Succeeded, 0 errors, 8 optional shader warnings, 51.611.310 bytes.
+- Web template includes loading/progress/retry/fullscreen and browser focus/pointer-lock pause support. Local and live browser playback are verified.
+- gh authentication and repo admin verified; repository public. Pages is active from main:/docs with HTTPS enforced and status built.
 - No active subagent controls Unity. One subagent wrote the web template then exhausted quota; root owns the rest.
 
 ## Worktree and files
 
 - main, origin https://github.com/fathahnoor/AgenticAPARDemo.git. Initial worktree was clean; current changes belong to this task.
 - Art committed: Assets/Art/Generated, DemoAparArt.cs, DemoAparBuilder.cs, DemoAparUIBuilder.cs, DemoAparCapture.cs, FireSource.cs and scene.
-- Web pending: DemoAparWebBuild.cs, Assets/WebGLTemplates/APAR, Web_RPAsset/Web_Renderer, ProjectSettings, .gitattributes docs override, README and AGENTS target note.
+- Web committed: DemoAparWebBuild.cs, Assets/WebGLTemplates/APAR, Web_RPAsset/Web_Renderer, ProjectSettings, .gitattributes docs override, README and AGENTS target note.
 - docs/ is the build output and intended Pages source. Check each file under 100 MB and ensure no LFS pointers.
 - QA: Documentation/ux-verification.txt and Documentation/VisualQA/web-*.png. Older captures under Assets/Documentation and Documentation/VisualQA are intermediate evidence, not final results; preserve them.
-- HANDOFF.md, task_plan.md, progress.md and findings.md are uncommitted continuity files. Include them when publishing the completed milestone.
+- HANDOFF.md, task_plan.md, progress.md, findings.md and browser-verification.md receive the final documentation checkpoint commit.
 
 ## Decisions and constraints
 
@@ -48,8 +48,8 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 
 - PASS 19 checks at 10:59:25 WIB via real Play Mode frames and virtual Input System keyboard: briefing, timer, W/E/Space/Escape/R, pause, occlusion, selective spray, score, exit, completion, failure, restart.
 - Final screenshots inspected. Emission keyword was initially missing and fixed using MaterialGlobalIlluminationFlags.BakedEmissive; CLI confirmed _EMISSION present.
-- Build trigger switched from EditorApplication.delayCall to update, since delayCall remained queued under CLI. Latest report confirms Building. Do not assume another compile is necessary.
-- Comet actual playback and GitHub Pages URL are NOT YET VERIFIED.
+- Build trigger switched from EditorApplication.delayCall to update, since delayCall remained queued under CLI. Build report is Succeeded.
+- Comet live playback and GitHub Pages URL are verified. Start, gameplay, pause and resume were observed. Pointer lock automation emitted WrongDocumentError once without stopping the player.
 
 ## Risks and blockers
 

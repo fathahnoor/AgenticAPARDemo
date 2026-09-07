@@ -21,4 +21,4 @@ Sumber primer yang diperiksa 7 September 2026:
 - [GitHub: Configure a Pages publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 - Template bawaan Unity 6000.6.0f1 pada Editor/Data/PlaybackEngines/WebGLSupport, dibaca untuk format macro loader dan config.
 
-Build lokal terverifikasi 7 September 2026 pukul 11:23 WIB: status Succeeded, error 0, 8 warning shader yang tidak dipakai, ukuran laporan 51.611.310 byte. Comet pada CDP 9222 memuat scene WebGL 2.0 dan menampilkan briefing, HUD, api, APAR, lampu, serta layar jeda. Uji URL publik tetap diperlukan setelah Pages aktif.
+Build lokal terverifikasi 7 September 2026 pukul 11:23 WIB: status Succeeded, error 0, 8 warning shader yang tidak dipakai, ukuran laporan 51.611.310 byte. Comet pada CDP 9222 memuat scene WebGL 2.0 dan menampilkan briefing, HUD, api, APAR, lampu, serta layar jeda. GitHub Pages kemudian dibangun dengan status `built` dari source `main:/docs` dan sesi live menerima input mulai, gameplay, jeda, serta lanjut.

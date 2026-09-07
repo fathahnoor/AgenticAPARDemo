@@ -116,3 +116,13 @@ Read HANDOFF.md and project instructions, verify git status and Unity state, the
 - DemoAparWebBuild now uses EditorApplication.update because delayCall remained Queued. Latest build at 11:01:59 says Building, bee_backend process observed. Do not duplicate it.
 - README rewritten for current browser controls, architecture, limits and build. AGENTS target updated to WebGL.
 - Next: await build, inspect generated JS and binary sizes, serve docs and test Comet, enable Pages and verify live public play.
+
+## Checkpoint 2026-09-07 11:32 WIB: WebGL publik terverifikasi
+
+- Build WebGL selesai melalui Unity CLI: Succeeded, error 0, warnings 8 shader opsional, 51.611.310 byte, duration 21:35.938.
+- Output `docs/` lolos `node --check docs/app.js`, macro template sudah diproses, dan file build tidak memakai filter Git LFS.
+- Commit `8ebf281` berisi build, template, konfigurasi WebGL, README, dokumentasi dan handover. Push normal ke origin/main berhasil, remote SHA cocok.
+- GitHub Pages aktif dari `main:/docs`, HTTPS enforced, deployment API status built untuk commit `8ebf281`, URL `https://fathahnoor.github.io/AgenticAPARDemo/`.
+- Comet live memuat Unity WebGL 2.0 dan menerima klik mulai, input lanjut/jeda, serta gameplay. HUD live mencapai 2/3 api padam, 200 poin dan status APAR menyemprot. Screenshot ada di Documentation/VisualQA/browser-live-*.png.
+- Console live hanya berisi startup Unity, saran header gzip, dan shader URP yang ter-strip. `WrongDocumentError` muncul saat automation Comet melepaskan pointer lock, tetapi tidak menghentikan runtime atau gameplay.
+- Next: commit catatan verifikasi dan checkpoint ini dengan pesan yang menyebut GPT-6 Astra, push, tunggu Pages built ulang, cek URL sekali lagi, lalu nonaktifkan heartbeat.
