@@ -134,3 +134,11 @@ Read HANDOFF.md and project instructions, verify git status and Unity state, the
 - Screenshot publik terbaru tersimpan di `Documentation/VisualQA/browser-live-final.png`. Worktree kini hanya memiliki screenshot bukti baru yang belum dicatat dalam commit berikutnya.
 - Checkpoint `5b04b43` sudah dipush ke `origin/main`, Pages sudah `built` untuk commit tersebut, dan screenshot sudah tercatat.
 - Heartbeat `heartbeat-agenticapardemo` dihapus setelah verifikasi final. Tidak ada pekerjaan terjadwal yang tersisa.
+
+## Checkpoint 2026-09-07 12:12 WIB: SFX dan BGM ditambahkan
+
+- Paket audio sintetis ditambahkan di `Assets/Audio`: BGM ambient loop, ambience api, loop semprotan, pickup APAR, alarm mulai, api padam, pintu terbuka, selesai, dan gagal.
+- `MissionAudio.cs` mengatur trigger fase, pickup, semprotan, api padam, pintu keluar, dan hasil misi. BGM volume `0.12`, ambience `0.09`, dan semprotan `0.28` agar suasana hidup tanpa menutupi instruksi.
+- Builder Unity CLI membuat `MissionAudio` dan empat sumber audio; `AudioImporter` dikonfigurasi preload aktif dan Vorbis melalui API Editor.
+- Build WebGL audio selesai `Succeeded`, 0 error, 11 warning shader opsional, 52.483.745 byte. Comet lokal memuat WebGL 2.0, audio context resumed setelah klik mulai, dan `errors` kosong.
+- Next: commit seluruh perubahan audio dan build terbaru, push ke origin/main, tunggu Pages `built`, lalu verifikasi URL publik sekali lagi.

@@ -1,4 +1,4 @@
-2026-09-07T10:59:25.3993722+07:00
+2026-09-07T12:10:41.7668089+07:00
 PASS (19 checks)
 PASS Briefing holds timer at 60
 PASS Enter starts mission
@@ -12,8 +12,8 @@ PASS Crosshair finds aimed fire
 PASS Solid obstacle blocks spray target
 PASS Space extinguishes aimed fire and awards 100 once
 PASS Other fires remain unaffected
-PASS Spray extinguishes Fire1
 PASS Spray extinguishes Fire2
+PASS Spray extinguishes Fire1
 PASS All fires unlock exit
 PASS Reaching exit completes mission with time bonus
 PASS R restarts cleanly with three fires and briefing

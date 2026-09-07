@@ -1,7 +1,7 @@
 # Project Handover
 
 Handoff status: READY
-Updated: 2026-09-07 11:45:00 +07:00 Asia/Jakarta
+Updated: 2026-09-07 12:11:51 +07:00 Asia/Jakarta
 Project root: C:\DevPath\260906_demo-apar\AgenticAPARDemo
 Source: Codex Desktop
 
@@ -18,10 +18,10 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 ## Current state
 
 - UX commit 562f66e, art milestone 36c64b2, Web milestone 8ebf281, and README/documentation checkpoint f255d9e are committed and pushed.
-- New scene includes detailed APAR, drums, industrial room, textured materials, lighting, fire and smoke. Final Editor captures at 1600x900 and 1024x768 were inspected.
+- New scene includes detailed APAR, drums, industrial room, textured materials, lighting, fire, smoke, BGM ambient and responsive SFX. Final Editor captures at 1600x900 and 1024x768 were inspected.
 - Final scene under Web_RPAsset passed all 19 integration checks at 10:59 WIB. Compile passed, Console since cursor 55 has no errors, scene saved with 11 roots.
-- Target WebGL and Web_RPAsset are active. Web Build Support is installed. WebGL release build completed at 11:23:35 WIB with Succeeded, 0 errors, 8 optional shader warnings, 51.611.310 bytes.
-- Web template includes loading/progress/retry/fullscreen and browser focus/pointer-lock pause support. Local and live browser playback are verified.
+- Target WebGL and Web_RPAsset are active. Web Build Support is installed. Latest WebGL release build with audio completed at 12:04:06 WIB with Succeeded, 0 errors, 11 optional shader warnings, 52.483.745 bytes.
+- Web template includes loading/progress/retry/fullscreen and browser focus/pointer-lock pause support. Local and live browser playback, including the resumed Web Audio context, are verified.
 - gh authentication and repo admin verified; repository public. Pages is active from main:/docs with HTTPS enforced and status built.
 - No active subagent controls Unity. One subagent wrote the web template then exhausted quota; root owns the rest.
 
@@ -31,7 +31,7 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 - Art committed: Assets/Art/Generated, DemoAparArt.cs, DemoAparBuilder.cs, DemoAparUIBuilder.cs, DemoAparCapture.cs, FireSource.cs and scene.
 - Web committed: DemoAparWebBuild.cs, Assets/WebGLTemplates/APAR, Web_RPAsset/Web_Renderer, ProjectSettings, .gitattributes docs override, README and AGENTS target note.
 - docs/ is the build output and intended Pages source. Check each file under 100 MB and ensure no LFS pointers.
-- QA: Documentation/ux-verification.txt and Documentation/VisualQA/web-*.png. Older captures under Assets/Documentation and Documentation/VisualQA are intermediate evidence, not final results; preserve them.
+- QA: Documentation/ux-verification.txt, Documentation/audio-verification.md and Documentation/VisualQA/web-*.png. Older captures under Assets/Documentation and Documentation/VisualQA are intermediate evidence, not final results; preserve them.
 - HANDOFF.md, task_plan.md, progress.md, findings.md and browser-verification.md receive the final documentation checkpoint commit.
 
 ## Decisions and constraints
@@ -39,7 +39,7 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 - Official Unity CLI first. No manual YAML scene/prefab/meta edits. Do not touch Library, Temp, Logs or obj manually.
 - Preserve small components and Input System. No new packages. Ask only for new installs, file deletion, out-of-workspace writes, or force push unless separately authorized.
 - New commit messages mention GPT-6 Astra naturally. Art message: feat: percantik ruang latihan dan detail APAR dengan GPT-6 Astra. Do not rewrite pushed history.
-- Browser target: desktop keyboard/mouse. No touch controls or sound implemented.
+- Browser target: desktop keyboard/mouse. No touch controls; BGM ambient and responsive SFX are implemented.
 - Use Comet. Existing Comet CDP 9222 was verified; create a task-owned tab, never navigate unrelated user tabs.
 - WebGL: URP Forward, Gzip with decompression fallback, no threads, output docs/, Pages source main:/docs.
 - Native heartbeat `heartbeat-agenticapardemo` every 5 hours at minute 35 was deleted after final push and Pages verification. No recurring task remains active.
@@ -48,8 +48,8 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 
 - PASS 19 checks at 10:59:25 WIB via real Play Mode frames and virtual Input System keyboard: briefing, timer, W/E/Space/Escape/R, pause, occlusion, selective spray, score, exit, completion, failure, restart.
 - Final screenshots inspected. Emission keyword was initially missing and fixed using MaterialGlobalIlluminationFlags.BakedEmissive; CLI confirmed _EMISSION present.
-- Build trigger switched from EditorApplication.delayCall to update, since delayCall remained queued under CLI. Build report is Succeeded.
-- Comet live playback and GitHub Pages URL are verified. Start, gameplay, pause and resume were observed. Pointer lock automation emitted WrongDocumentError once without stopping the player.
+- Build trigger switched from EditorApplication.delayCall to update, since delayCall remained queued under CLI. Latest audio build report is Succeeded.
+- Comet live playback and GitHub Pages URL are verified. Start, gameplay, pause and resume were observed; local audio context resumed after the start click and browser errors were empty. Pointer lock automation emitted WrongDocumentError once without stopping the player.
 
 ## Risks and blockers
 

@@ -18,6 +18,7 @@ public static class DemoAparBuilder
     public static void Build()
     {
         MakeMaterials();
+        ConfigureAudioImports();
         CleanupPreviousBuild();
         BuildRoom();
         BuildExit();
@@ -35,6 +36,7 @@ public static class DemoAparBuilder
         for (int i = 0; i < fires.Length; i++) DemoAparArt.DressFire(fires[i], i + 1);
         DemoAparArt.DressExit(Object.FindAnyObjectByType<ExitDoor>());
         DemoAparArt.Lighting(room, Object.FindAnyObjectByType<PlayerController>().playerCamera);
+        BuildAudio(Object.FindAnyObjectByType<MissionManager>(), Object.FindAnyObjectByType<FireExtinguisher>(), Object.FindAnyObjectByType<ExitDoor>());
         Debug.Log("[DemoAPAR] Build selesai. Simpan scene bila puas.");
     }
 
@@ -67,7 +69,7 @@ public static class DemoAparBuilder
         var mainCam = GameObject.Find("Main Camera");
         if (mainCam != null)
             mainCam.transform.SetParent(null, true);
-        foreach (string name in new[] { "Room", "Player", "APAR", "Fire1", "Fire2", "Fire3", "ExitDoor", "MissionManager", "MissionUI" })
+        foreach (string name in new[] { "Room", "Player", "APAR", "Fire1", "Fire2", "Fire3", "ExitDoor", "MissionManager", "MissionUI", "MissionAudio" })
         {
             var go = GameObject.Find(name);
             if (go != null)
@@ -275,5 +277,72 @@ public static class DemoAparBuilder
         mm.ui = ui;
         mm.exitDoor = exit;
         mm.fires = Object.FindObjectsByType<FireSource>();
+    }
+
+    static void BuildAudio(MissionManager mission, FireExtinguisher apar, ExitDoor exit)
+    {
+        var director = new GameObject("MissionAudio");
+        var audio = Undo.AddComponent<MissionAudio>(director);
+        audio.mission = mission;
+        audio.apar = apar;
+        audio.exitDoor = exit;
+        audio.musicLoop = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/bgm_training_loop.wav");
+        audio.fireLoop = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/fire_crackle_loop.wav");
+        audio.sprayLoop = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/apar_spray_loop.wav");
+        audio.pickupClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/apar_pickup.wav");
+        audio.missionStartClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/mission_start.wav");
+        audio.extinguishedClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/fire_extinguished.wav");
+        audio.exitUnlockClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/exit_unlock.wav");
+        audio.completeClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/mission_complete.wav");
+        audio.failedClip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/mission_failed.wav");
+
+        audio.musicSource = AddAudioSource(director, "Music", 0.12f, 0f, true);
+        audio.ambienceSource = AddAudioSource(director, "FireAmbience", 0.09f, 0.25f, true);
+        audio.spraySource = AddAudioSource(director, "SprayLoop", 0.28f, 0.35f, true);
+        audio.sfxSource = AddAudioSource(director, "SFX", 0.7f, 0f, false);
+        audio.musicSource.clip = audio.musicLoop;
+        audio.ambienceSource.clip = audio.fireLoop;
+        audio.spraySource.clip = audio.sprayLoop;
+    }
+
+    static void ConfigureAudioImports()
+    {
+        foreach (string path in new[]
+        {
+            "Assets/Audio/bgm_training_loop.wav",
+            "Assets/Audio/fire_crackle_loop.wav",
+            "Assets/Audio/apar_spray_loop.wav",
+            "Assets/Audio/apar_pickup.wav",
+            "Assets/Audio/mission_start.wav",
+            "Assets/Audio/fire_extinguished.wav",
+            "Assets/Audio/exit_unlock.wav",
+            "Assets/Audio/mission_complete.wav",
+            "Assets/Audio/mission_failed.wav"
+        })
+        {
+            var importer = AssetImporter.GetAtPath(path) as AudioImporter;
+            if (importer == null) continue;
+            importer.loadInBackground = false;
+            var settings = importer.defaultSampleSettings;
+            settings.preloadAudioData = true;
+            settings.loadType = AudioClipLoadType.CompressedInMemory;
+            settings.compressionFormat = AudioCompressionFormat.Vorbis;
+            settings.quality = 0.7f;
+            importer.defaultSampleSettings = settings;
+            importer.SaveAndReimport();
+        }
+    }
+
+    static AudioSource AddAudioSource(GameObject parent, string name, float volume, float spatialBlend, bool loop)
+    {
+        var go = new GameObject(name);
+        go.transform.SetParent(parent.transform, false);
+        var source = Undo.AddComponent<AudioSource>(go);
+        source.playOnAwake = false;
+        source.volume = volume;
+        source.spatialBlend = spatialBlend;
+        source.loop = loop;
+        source.dopplerLevel = 0f;
+        return source;
     }
 }
