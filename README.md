@@ -122,7 +122,7 @@ AgenticAPARDemo/
 
 Unity 6000.6 • URP 17.6 • Input System • CharacterController •
 Particle System • uGUI • Unity CLI + `com.unity.pipeline` •
-OpenCode + Muse Spark • Git
+OpenCode & Codex • Git
 
 ---
 
