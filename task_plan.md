@@ -6,7 +6,7 @@
 - [x] QA visual akhir dan commit aset.
 - [x] Konversi target WebGL, build dengan template APAR dan kompresi yang sesuai GitHub Pages.
 - [x] Uji browser Comet, aktifkan GitHub Pages, push build dan verifikasi URL publik benar-benar playable.
-- [x] Rapikan dokumentasi/handover dan cocokkan HEAD lokal/remote. Heartbeat dihentikan setelah push checkpoint final dan verifikasi ulang Pages.
+- [x] Rapikan dokumentasi/handover, cocokkan HEAD lokal/remote, dan hentikan heartbeat setelah push checkpoint final serta verifikasi ulang Pages.
 
 Kriteria selesai: HUD terbaca, briefing/timer/pause/retry bekerja, pickup/aim/spray/occlusion/exit/score lulus, tidak ada error gameplay baru, versi publik memuat dan menerima input browser, final GitHub HEAD cocok.
 

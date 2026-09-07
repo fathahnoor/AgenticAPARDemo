@@ -1,7 +1,7 @@
 # Project Handover
 
 Handoff status: READY
-Updated: 2026-09-07 11:40:49 +07:00 Asia/Jakarta
+Updated: 2026-09-07 11:45:00 +07:00 Asia/Jakarta
 Project root: C:\DevPath\260906_demo-apar\AgenticAPARDemo
 Source: Codex Desktop
 
@@ -42,7 +42,7 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 - Browser target: desktop keyboard/mouse. No touch controls or sound implemented.
 - Use Comet. Existing Comet CDP 9222 was verified; create a task-owned tab, never navigate unrelated user tabs.
 - WebGL: URP Forward, Gzip with decompression fallback, no threads, output docs/, Pages source main:/docs.
-- Native heartbeat every 5 hours at minute 35 remains active on this same task until the final documentation checkpoint is pushed and verified, then it should be stopped. See progress.md.
+- Native heartbeat `heartbeat-agenticapardemo` every 5 hours at minute 35 was deleted after final push and Pages verification. No recurring task remains active.
 
 ## Verification
 

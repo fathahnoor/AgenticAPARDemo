@@ -132,4 +132,5 @@ Read HANDOFF.md and project instructions, verify git status and Unity state, the
 - README dikembalikan ke gaya ringkas sebelumnya. Hanya ditambahkan tautan GitHub Pages di bagian atas dan atribusi akhir: `Versi awal menggunakan OpenCode dan Muse Spark 1.3 Free. Pembaruan visual, UX, dan WebGL ini dikerjakan menggunakan Codex dan GPT-6 Astra.`
 - Commit `f255d9e` sudah dipush ke `origin/main`. GitHub Pages melaporkan `status: built`, source `main:/docs`, HTTPS aktif, dan commit build cocok dengan `f255d9e`.
 - Screenshot publik terbaru tersimpan di `Documentation/VisualQA/browser-live-final.png`. Worktree kini hanya memiliki screenshot bukti baru yang belum dicatat dalam commit berikutnya.
-- Next: catat screenshot dan handover final, push, verifikasi Pages sekali lagi, lalu nonaktifkan heartbeat karena tujuan sudah selesai.
+- Checkpoint `5b04b43` sudah dipush ke `origin/main`, Pages sudah `built` untuk commit tersebut, dan screenshot sudah tercatat.
+- Heartbeat `heartbeat-agenticapardemo` dihapus setelah verifikasi final. Tidak ada pekerjaan terjadwal yang tersisa.
