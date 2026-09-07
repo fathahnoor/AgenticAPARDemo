@@ -27,6 +27,14 @@ public static class DemoAparBuilder
         BuildApar();
         BuildPlayer();
         BuildMission();
+        var room = GameObject.Find("Room").transform;
+        DemoAparArt.DressRoom(room);
+        DemoAparArt.DressExtinguisher(Object.FindAnyObjectByType<FireExtinguisher>());
+        var fires = Object.FindObjectsByType<FireSource>();
+        System.Array.Sort(fires, (a, b) => string.CompareOrdinal(a.name, b.name));
+        for (int i = 0; i < fires.Length; i++) DemoAparArt.DressFire(fires[i], i + 1);
+        DemoAparArt.DressExit(Object.FindAnyObjectByType<ExitDoor>());
+        DemoAparArt.Lighting(room, Object.FindAnyObjectByType<PlayerController>().playerCamera);
         Debug.Log("[DemoAPAR] Build selesai. Simpan scene bila puas.");
     }
 
@@ -34,11 +42,11 @@ public static class DemoAparBuilder
 
     static void MakeMaterials()
     {
-        Shader lit = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-        floorMat = new Material(lit) { color = new Color(0.55f, 0.55f, 0.58f) };
-        wallMat = new Material(lit) { color = new Color(0.7f, 0.7f, 0.72f) };
-        darkMat = new Material(lit) { color = new Color(0.15f, 0.14f, 0.14f) };
-        redMat = new Material(lit) { color = new Color(0.8f, 0.08f, 0.08f) };
+        DemoAparArt.Prepare();
+        floorMat = DemoAparArt.Concrete;
+        wallMat = DemoAparArt.Wall;
+        darkMat = DemoAparArt.Steel;
+        redMat = DemoAparArt.Red;
     }
 
     static GameObject NewPrimitive(PrimitiveType type, string name, Vector3 pos, Vector3 scale, Material mat, Transform parent)
@@ -49,7 +57,7 @@ public static class DemoAparBuilder
         go.transform.position = pos;
         go.transform.localScale = scale;
         if (mat != null)
-            go.GetComponent<Renderer>().material = mat;
+            go.GetComponent<Renderer>().sharedMaterial = mat;
         return go;
     }
 
@@ -242,7 +250,7 @@ public static class DemoAparBuilder
         cam.transform.localRotation = Quaternion.identity;
         var mount = new GameObject("APARMount");
         mount.transform.SetParent(cam.transform, false);
-        mount.transform.localPosition = new Vector3(0.35f, -0.5f, 0.7f);
+        mount.transform.localPosition = new Vector3(0.27f, -0.98f, 0.6f);
         mount.transform.localRotation = Quaternion.identity;
         var ctrl = Undo.AddComponent<PlayerController>(player);
         ctrl.playerCamera = cam;
@@ -256,16 +264,16 @@ public static class DemoAparBuilder
     {
         var mm = new GameObject("MissionManager").AddComponent<MissionManager>();
         var ui = DemoAparUIBuilder.Build();
-        var interactor = Object.FindFirstObjectByType<PlayerInteractor>();
-        var apar = Object.FindFirstObjectByType<FireExtinguisher>();
-        var exit = Object.FindFirstObjectByType<ExitDoor>();
+        var interactor = Object.FindAnyObjectByType<PlayerInteractor>();
+        var apar = Object.FindAnyObjectByType<FireExtinguisher>();
+        var exit = Object.FindAnyObjectByType<ExitDoor>();
         interactor.apar = apar;
         interactor.ui = ui;
-        apar.aimCamera = Object.FindFirstObjectByType<PlayerController>().playerCamera;
+        apar.aimCamera = Object.FindAnyObjectByType<PlayerController>().playerCamera;
         ui.apar = apar;
         exit.player = interactor.transform;
         mm.ui = ui;
         mm.exitDoor = exit;
-        mm.fires = Object.FindObjectsByType<FireSource>(FindObjectsSortMode.None);
+        mm.fires = Object.FindObjectsByType<FireSource>();
     }
 }

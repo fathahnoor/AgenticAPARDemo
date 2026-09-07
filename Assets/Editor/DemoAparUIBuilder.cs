@@ -16,6 +16,7 @@ public static class DemoAparUIBuilder
         var canvas = new GameObject("Canvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         canvas.transform.SetParent(root.transform, false);
         canvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.GetComponent<Canvas>().sortingOrder = 100;
         var scaler = canvas.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1600, 900);
@@ -42,7 +43,7 @@ public static class DemoAparUIBuilder
         var prompt = Box("PromptCard", hud, new Vector2(0.5f, 0), new Vector2(0, 35), new Vector2(660, 58), Panel);
         ui.promptText = Label("Prompt", prompt.transform, "", 21, new Vector2(16, -14), new Vector2(628, 30), Color.white);
         ui.promptText.alignment = TextAnchor.MiddleCenter;
-        var equipment = Box("EquipmentCard", hud, new Vector2(1, 0), new Vector2(-28, 116), new Vector2(310, 65), Panel);
+        var equipment = Box("EquipmentCard", hud, new Vector2(0, 0), new Vector2(28, 116), new Vector2(310, 65), Panel);
         ui.equipmentText = Label("Equipment", equipment.transform, "APAR / BELUM DIAMBIL", 17, new Vector2(16, -12), new Vector2(280, 24), Mint);
         Label("PauseHint", equipment.transform, "ESC  Jeda & kontrol", 15, new Vector2(16, -39), new Vector2(280, 21), Muted);
 

@@ -18,6 +18,7 @@ public class FireSource : MonoBehaviour
     [Header("Visual refs (diisi builder)")]
     public ParticleSystem fireParticles;
     public Light fireLight;
+    public ParticleSystem smokeParticles;
     public Transform visualRoot;
 
     float baseEmissionRate = 60f;
@@ -71,6 +72,7 @@ public class FireSource : MonoBehaviour
             eventSent = true;
             if (fireParticles != null)
                 fireParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            if (smokeParticles != null) smokeParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             if (fireLight != null)
                 fireLight.intensity = 0f;
             Extinguished?.Invoke(this);
@@ -94,4 +96,3 @@ public class FireSource : MonoBehaviour
         }
     }
 }
-
