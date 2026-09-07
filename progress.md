@@ -142,4 +142,5 @@ Read HANDOFF.md and project instructions, verify git status and Unity state, the
 - Builder Unity CLI membuat `MissionAudio` dan empat sumber audio; `AudioImporter` dikonfigurasi preload aktif dan Vorbis melalui API Editor.
 - Build WebGL audio selesai `Succeeded`, 0 error, 11 warning shader opsional, 52.483.745 byte. Comet lokal memuat WebGL 2.0, audio context resumed setelah klik mulai, dan `errors` kosong.
 - Commit `a77b79e` sudah dipush ke `origin/main`; Pages sudah `built`, URL publik sudah memuat build audio, dan audio context resumed setelah klik mulai. Screenshot publik tercatat di `Documentation/VisualQA/browser-audio-live-*.png`.
+- Dokumentasi audio publik ditutup pada commit `f130e11`; Pages kembali `built` untuk commit tersebut.
 - Next: tidak ada tindakan wajib. Jika melanjutkan, mulai dari `git status --short --branch` dan pertahankan handover ini.
