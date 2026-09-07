@@ -112,3 +112,8 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Generated browser build helpers and imported QA captures.
+/Data/
+/Assets/Documentation/
+/Assets/Documentation.meta

@@ -5,9 +5,9 @@ agentic loop: PLAN, CODE, CONTROL UNITY, RUN, OBSERVE, FIX, VERIFY, COMMIT.
 
 ## Proyek
 
-- Engine: Unity 6000.6.0f1, URP 17.6.0 (PC_RPAsset)
+- Engine: Unity 6000.6.0f1, URP 17.6.0 (Web_RPAsset, Forward)
 - Bahasa: C#
-- Target: Windows 64-bit
+- Target: WebGL, GitHub Pages dari main:/docs. PC_RPAsset tetap tersedia.
 - Scene aktif: Assets/Scenes/DemoAPAR.unity
 - Input: Unity Input System SAJA (activeInputHandler = New).
   Jangan pakai API legacy (Input.GetKey, Input.GetAxis).
