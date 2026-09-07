@@ -1,7 +1,7 @@
 # Project Handover
 
 Handoff status: READY
-Updated: 2026-09-07 11:32:00 +07:00 Asia/Jakarta
+Updated: 2026-09-07 11:40:49 +07:00 Asia/Jakarta
 Project root: C:\DevPath\260906_demo-apar\AgenticAPARDemo
 Source: Codex Desktop
 
@@ -17,7 +17,7 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 
 ## Current state
 
-- UX commit 562f66e and art milestone 36c64b2 are committed and pushed. Web milestone 8ebf281 is committed and pushed; final documentation checkpoint is pending.
+- UX commit 562f66e, art milestone 36c64b2, Web milestone 8ebf281, and README/documentation checkpoint f255d9e are committed and pushed.
 - New scene includes detailed APAR, drums, industrial room, textured materials, lighting, fire and smoke. Final Editor captures at 1600x900 and 1024x768 were inspected.
 - Final scene under Web_RPAsset passed all 19 integration checks at 10:59 WIB. Compile passed, Console since cursor 55 has no errors, scene saved with 11 roots.
 - Target WebGL and Web_RPAsset are active. Web Build Support is installed. WebGL release build completed at 11:23:35 WIB with Succeeded, 0 errors, 8 optional shader warnings, 51.611.310 bytes.
@@ -42,7 +42,7 @@ Improve visual quality, realistic 3D assets and UX; convert to WebGL and publish
 - Browser target: desktop keyboard/mouse. No touch controls or sound implemented.
 - Use Comet. Existing Comet CDP 9222 was verified; create a task-owned tab, never navigate unrelated user tabs.
 - WebGL: URP Forward, Gzip with decompression fallback, no threads, output docs/, Pages source main:/docs.
-- Native heartbeat every 5 hours at minute 35 is ACTIVE on this same task. Stop it only after complete live-browser verification and push. See progress.md.
+- Native heartbeat every 5 hours at minute 35 remains active on this same task until the final documentation checkpoint is pushed and verified, then it should be stopped. See progress.md.
 
 ## Verification
 

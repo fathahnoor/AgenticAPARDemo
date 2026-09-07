@@ -126,3 +126,10 @@ Read HANDOFF.md and project instructions, verify git status and Unity state, the
 - Comet live memuat Unity WebGL 2.0 dan menerima klik mulai, input lanjut/jeda, serta gameplay. HUD live mencapai 2/3 api padam, 200 poin dan status APAR menyemprot. Screenshot ada di Documentation/VisualQA/browser-live-*.png.
 - Console live hanya berisi startup Unity, saran header gzip, dan shader URP yang ter-strip. `WrongDocumentError` muncul saat automation Comet melepaskan pointer lock, tetapi tidak menghentikan runtime atau gameplay.
 - Next: commit catatan verifikasi dan checkpoint ini dengan pesan yang menyebut GPT-6 Astra, push, tunggu Pages built ulang, cek URL sekali lagi, lalu nonaktifkan heartbeat.
+
+## Checkpoint 2026-09-07 11:40 WIB: README dikembalikan dan Pages dibangun ulang
+
+- README dikembalikan ke gaya ringkas sebelumnya. Hanya ditambahkan tautan GitHub Pages di bagian atas dan atribusi akhir: `Versi awal menggunakan OpenCode dan Muse Spark 1.3 Free. Pembaruan visual, UX, dan WebGL ini dikerjakan menggunakan Codex dan GPT-6 Astra.`
+- Commit `f255d9e` sudah dipush ke `origin/main`. GitHub Pages melaporkan `status: built`, source `main:/docs`, HTTPS aktif, dan commit build cocok dengan `f255d9e`.
+- Screenshot publik terbaru tersimpan di `Documentation/VisualQA/browser-live-final.png`. Worktree kini hanya memiliki screenshot bukti baru yang belum dicatat dalam commit berikutnya.
+- Next: catat screenshot dan handover final, push, verifikasi Pages sekali lagi, lalu nonaktifkan heartbeat karena tujuan sudah selesai.
